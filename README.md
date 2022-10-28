@@ -1,14 +1,14 @@
 # ECE550-PC4
 
-## 开发目标
+## Development Objective
 
 
-## 进展
+## Progess
 
 
-## 问题处理
+## Issue Tracker
 
 
-## 注意事项
-
-- 进入本地仓库开发时，一定要先运行`git pull`指令，以同步本地仓库和最新的远端仓库。
+## Cautions
+- Always run `git pull` before you start developing in local repo. This will sync
+  local repo and remote repo.
