@@ -91,5 +91,21 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
+	 //wire 
+	 
+	 //PC
+	 
+	 
+	 //imem
+	 
+	 //Instruction and regfile
+	 
+	 //ALU
+	 
+	 //dmem
+	 
+
+	 
+	 
 
 endmodule
