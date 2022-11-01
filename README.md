@@ -2,6 +2,13 @@
 
 ## Development Objective
 
+# Opcode
+| Instruction  | Opcode |
+| ------------- | ------------- |
+| R-type  | 00000  |
+| Addi  | 01000  |
+| Sw  | 01011  |
+| Lw  | 00011  |
 
 ## Progess
 
