@@ -10,16 +10,16 @@
 | Sw  | 01011  |
 | Lw  | 00011  |
 ### Control Circuits
-| Control Singal  |  |  |
-| ------------- | ------------- |------------- |
-| Rwe  | Rtype + Addi + Lw  |  |
-| Rdst  | Rtype  |  |
-| ALUinB  | Addi + Lw + Sw  |  |
-| ALUop  | Beq(Not in this checkpoint)  |  |
-| BR  | Beq(Not in this checkpoint)  |  |
-| DMwe  | Sw  |  |
-| JP  | J(Not in this checkpoint)  |  |
-| Rwd  | Lw  |  |
+| Control Singal  | Decode |
+| ------------- | ------------- |
+| Rwe  | Rtype + Addi + Lw  |
+| Rdst  | Rtype  |
+| ALUinB  | Addi + Lw + Sw  |
+| ALUop  | Beq(Not in this checkpoint)  |
+| BR  | Beq(Not in this checkpoint)  |
+| DMwe  | Sw  |
+| JP  | J(Not in this checkpoint)  |
+| Rwd  | Lw  |
 
 ## Progess
 
