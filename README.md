@@ -10,7 +10,7 @@
 | Sw  | 01011  |
 | Lw  | 00011  |
 ### Control Circuits
-| Control Singal  | Decode |
+| Control Signal  | Decode |
 | ------------- | ------------- |
 | Rwe  | Rtype + Addi + Lw  |
 | Rdst  | Rtype  |
