@@ -2,7 +2,7 @@
 
 ## Development Objective
 
-# Opcode
+### Opcode
 | Instruction  | Opcode |
 | ------------- | ------------- |
 | R-type  | 00000  |
