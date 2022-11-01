@@ -10,7 +10,7 @@
 | Sw  | 01011  |
 | Lw  | 00011  |
 
-Control Circuits
+### Control Circuits
 | Control Singal  |  |  |
 | ------------- | ------------- |------------- |
 | Rwe  | Rtype + Addi + Lw  |  |
