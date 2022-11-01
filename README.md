@@ -10,6 +10,18 @@
 | Sw  | 01011  |
 | Lw  | 00011  |
 
+Control Circuits
+| Control Singal  |  |  |
+| ------------- | ------------- |------------- |
+| Rwe  | Rtype + Addi + Lw  |  |
+| Rdst  | Rtype  |  |
+| ALUinB  | Addi + Lw + Sw  |  |
+| ALUop  | Beq  |  |
+| BR  | Beq  |  |
+| DMwe  | Sw  |  |
+| JP  | J  |  |
+| Rwd  | Lw  |  |
+
 ## Progess
 
 
