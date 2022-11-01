@@ -15,10 +15,10 @@
 | Rwe  | Rtype + Addi + Lw  |  |
 | Rdst  | Rtype  |  |
 | ALUinB  | Addi + Lw + Sw  |  |
-| ALUop  | Beq  |  |
-| BR  | Beq  |  |
+| ALUop  | Beq(Not in this checkpoint)  |  |
+| BR  | Beq(Not in this checkpoint)  |  |
 | DMwe  | Sw  |  |
-| JP  | J  |  |
+| JP  | J(Not in this checkpoint)  |  |
 | Rwd  | Lw  |  |
 
 ## Progess
