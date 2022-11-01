@@ -91,28 +91,14 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
-	 
 	 //wire 
-	 wire[31:0] PC_INPUT;
-	 wire[31:0] PC_OUTPUT;
-	 wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
-	 wire[31:0] instruction;
-	 
 	 
 	 //PC
-	 pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
-	 alu pcPlus4(PC_OUTPUT, 32'h00000004, 5'b00000,
-			5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
-			
-			
+	 
+	 
 	 //imem
-	
-	 	 
 	 
 	 //Instruction and regfile
-	 
-	 
-	 
 	 
 	 //ALU
 	 
