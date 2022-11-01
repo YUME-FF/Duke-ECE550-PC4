@@ -6,9 +6,9 @@
 | Instruction  | Opcode |
 | ------------- | ------------- |
 | R-type  | 00000  |
-| Addi  | 01000  |
-| Sw  | 01011  |
-| Lw  | 00011  |
+| Addi  | 00101  |
+| Sw  | 00111  |
+| Lw  | 01000  |
 ### Control Circuits
 | Control Signal  | Decode |
 | ------------- | ------------- |
