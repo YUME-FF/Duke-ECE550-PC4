@@ -97,6 +97,11 @@ module processor(
 	 wire[31:0] PC_OUTPUT;
 	 wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
 	 wire[31:0] instruction;
+	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
+	 wire op_Rtpye, op_Addi, op_Sw, op_Lw;
+	 
+	 //Rtype
+	 wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
 	 
 	 
 	 //PC
@@ -106,13 +111,15 @@ module processor(
 			
 			
 	 //imem
-	
+	 assign address_imem = PC_OUTPUT[11:0];
+	 assign instruction = q_dmem;
 	 	 
 	 
 	 //Instruction and regfile
+	 assign opcode = instruction[31:27];
+	 control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtpye, op_Addi, op_Sw, op_Lw);
 	 
-	 
-	 
+	 //op_Rtpye 00000
 	 
 	 //ALU
 	 
