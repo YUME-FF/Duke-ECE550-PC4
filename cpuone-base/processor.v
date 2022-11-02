@@ -156,7 +156,7 @@ module processor(
 	 assign RS = instruction[21:17];
 	 assign RT = instruction[16:12];
 	 assign shamt = instruction[11:7];
-	 assign ALUopcode = op_Rtype?instruction[6:2]:{4'b0000, ALUop};
+	 assign ALUopcode = instruction[6:2];
 	 
 	 
 	 assign Immediate = instruction[16:0];
