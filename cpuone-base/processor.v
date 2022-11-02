@@ -144,7 +144,7 @@ module processor(
     	and and_isadd(op_ADD, op_ADD_TMP, op_Rtype);
     	//Sub 00001
     	is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
-    	and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
+    	and and_issub(op_SUB, op_SUB_TMP, op_Rtype);
 	 
     	rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
 	
