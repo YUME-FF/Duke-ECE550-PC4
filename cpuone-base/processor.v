@@ -96,11 +96,16 @@ module processor(
 	 wire[31:0] PC_INPUT;
 	 wire[31:0] PC_OUTPUT;
 	 wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
+	 
+	 wire [16:0] Immediate;
+	 
+	 wire [4:0] opcode, ALUopcode, RD, RS, RT, shamt;
 	 wire[31:0] instruction;
 	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
 	 wire op_Rtpye, op_Addi, op_Sw, op_Lw;
 	 
 	 //Rtype
+	 wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
 	 wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
 	 
 	 
@@ -119,10 +124,31 @@ module processor(
 	 assign opcode = instruction[31:27];
 	 control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtpye, op_Addi, op_Sw, op_Lw);
 	 
-	 //op_Rtpye 00000
+	 //Add 00000
+	 is_code is_Add(ALUopcode, 5'b00000, op_ADD_TMP);
+	 and and_isadd(op_ADD, op_ADD_TMP, op_Rtpye);
+	 //Sub 00001
+	 is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
+	 and and_isadd(op_SUB, op_SUB_TMP, op_Rtpye);
+	 //AND 00010
+	 is_code is_AND(ALUopcode, 5'b00010, op_AND_TMP);
+	 and and_isadd(op_AND, op_AND_TMP, op_Rtpye);
+	 //OR 00011
+	 is_code is_OR(ALUopcode, 5'b00011, op_OR_TMP);
+	 and and_isadd(op_OR, op_OR_TMP, op_Rtpye);
+	 //SLL 00100
+	 is_code is_SLL(ALUopcode, 5'b00100, op_SLL_TMP);
+	 and and_isadd(op_SLL, op_SLL_TMP, op_Rtpye);
+	 //SRA 00101
+	 is_code is_SRA(ALUopcode, 5'b00101, op_SRA_TMP);
+	 and and_isadd(op_SRA, op_SRA_TMP, op_Rtpye);
 	 
-	 //ALU
 	 
+	 assign ALUopcode = op_Rtpye?instruction[6:2]:{4'b0000, ALUop};
+	 assign RD = instruction[26:22];
+	 assign RS = instruction[21:17];
+	 assign RT = oinstruction[16:12];
+	 assign Immediate = {4'h0000, 1'b0};
 	 //dmem
 	 
 
