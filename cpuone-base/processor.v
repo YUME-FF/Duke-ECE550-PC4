@@ -76,7 +76,7 @@ module processor(
 
     // Imem
     output [11:0] address_imem;
-    input [31:0] q_imem;
+    input [31:0] q_imem;s
 
     // Dmem
     output [11:0] address_dmem;
@@ -105,16 +105,16 @@ module processor(
     	wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
     	wire [31:0] rstatus;
-	wire [31:0] w_data;
+		wire [31:0] w_data;
 	 
     	//Rtype
     	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
     	wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
 	
-	wire [31:0]reg_A, reg_B;
-	wire[31:0] Immediate_extension;
-	wire [31:0] aluOut;
-	wire alu_isEqual, alu_lessThan, overflow;
+		wire [31:0]reg_A, reg_B;
+		wire[31:0] Immediate_extension;
+		wire [31:0] aluOut;
+		wire alu_isEqual, alu_lessThan, overflow;
 	 
     	//PC
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
@@ -134,7 +134,7 @@ module processor(
     	assign shamt = instruction[11:7];
     	assign ALUopcode = instruction[6:2];
 	 
-    	assign Immediate = instruction[16:0];
+	assign Immediate = instruction[17:0];
 	signExtension se(Immediate, Immediate_extension);
     	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
@@ -144,24 +144,24 @@ module processor(
     	and and_isadd(op_ADD, op_ADD_TMP, op_Rtype);
     	//Sub 00001
     	is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
-    	and and_issub(op_SUB, op_SUB_TMP, op_Rtype);
+    	and and_is_Sub(op_SUB, op_SUB_TMP, op_Rtype);
 	 
-    	assign rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3:32'd0;
+    	assign rstatus = op_ADD?32'd1:(op_SUB?32'd2:op_Addi?32'd3:32'd0);
 	
     	// Regfile
-	assign w_data = overflow?rstatus:aluOut;
+	assign w_data = aluOut;
 	
     	assign ctrl_writeEnable = Rwe;
-    	assign ctrl_writeReg = RS;
+    	assign ctrl_writeReg = Rdst? RT: RS; 
     	assign ctrl_readRegA = RD;
-    	assign ctrl_readRegB = RT;
-    	assign data_writeReg = w_data;
+    	assign ctrl_readRegB = RT; 
+    	assign data_writeReg = Rwd? dmem_out:w_data;
 	assign reg_A = data_readRegA;
 	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
-	 
+		
     	//get aluOut
-	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
-	
+		alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
+
     	// Dmem
     	assign address_dmem = aluOut[11:0];
     	assign data = reg_B;
