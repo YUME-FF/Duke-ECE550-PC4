@@ -146,10 +146,10 @@ module processor(
     	is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
     	and and_issub(op_SUB, op_SUB_TMP, op_Rtype);
 	 
-    	rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
+    	assign rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3:32'd0;
 	
     	// Regfile
-	assign w_data = aluOut;
+	assign w_data = overflow?rstatus:aluOut;
 	
     	assign ctrl_writeEnable = Rwe;
     	assign ctrl_writeReg = RS;
