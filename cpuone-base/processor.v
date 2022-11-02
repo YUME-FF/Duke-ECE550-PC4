@@ -104,7 +104,7 @@ module processor(
 	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
 	 wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
-	 wire [4:0] whichcode_overflow;
+	wire [31:0] whichcode_overflow;
 	 
 	 //Rtype
 	 wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
@@ -132,12 +132,6 @@ module processor(
 	 
 	 assign Immediate = instruction[16:0];
 	
-	//regfile
-// 	regfile(
-// 	clock, ctrl_writeEnable, ctrl_reset, ctrl_writeReg,
-// 	ctrl_readRegA, ctrl_readRegB, data_writeReg, data_readRegA,
-// 	data_readRegB);
-	
 	 control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
 	 //overflow
@@ -148,7 +142,7 @@ module processor(
 	 is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
 	 and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
 	 
-	 whichcode_overflow = op_ADD?5'b00000:op_SUB?5'b00001:op_Addi?5'b00101;
+	 whichcode_overflow = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
 	 
 	 //dmem
 	 
