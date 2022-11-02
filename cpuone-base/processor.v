@@ -136,7 +136,7 @@ module processor(
 	 
     	assign Immediate = instruction[16:0];
 	signExtension se(Immediate, Immediate_extension);
-    	control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
+    	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
     	//overflow
     	//Add 00000
