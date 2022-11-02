@@ -91,72 +91,74 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
+ 
+    	//wire 
+    	wire[31:0] PC_INPUT;
+    	wire[31:0] PC_OUTPUT;
+    	wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
+	
+    	wire [16:0] Immediate;
+
+    	wire [4:0] opcode, ALUopcode, RD, RS, RT, shamt;
+    	wire[31:0] instruction;
+    	wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
+    	wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
-	 //wire 
-	 wire[31:0] PC_INPUT;
-	 wire[31:0] PC_OUTPUT;
-	 wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
+    	wire [31:0] rstatus;
 	 
-	 wire [16:0] Immediate;
+    	//Rtype
+    	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
+    	wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
+	
+    	wire [31:0]reg_dmem;
 	 
-	 wire [4:0] opcode, ALUopcode, RD, RS, RT, shamt;
-	 wire[31:0] instruction;
-	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
-	 wire op_Rtype, op_Addi, op_Sw, op_Lw;
-	 
-	 wire [31:0] rstatus;
-	 
-	 //Rtype
-	 wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
-	 wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
-	 
-	 
-	 //PC
-	 pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
-	 alu pcPlus4(PC_OUTPUT, 32'h00000004, 5'b00000,
-			5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
+    	//PC
+    	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
+    	alu pcPlus4(PC_OUTPUT, 32'h00000004, 5'b00000,
+		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
 			
 			
-	 //imem
-	 assign address_imem = PC_OUTPUT[11:0];
-	 assign instruction = q_imem;
+    	//imem
+    	assign address_imem = PC_OUTPUT[11:0];
+    	assign instruction = q_imem;
 	 
-	 //Instruction
-	 assign opcode = instruction[31:27];
-	 assign RD = instruction[26:22];
-	 assign RS = instruction[21:17];
-	 assign RT = instruction[16:12];
-	 assign shamt = instruction[11:7];
-	 assign ALUopcode = instruction[6:2];
+    	//Instruction
+    	assign opcode = instruction[31:27];
+    	assign RD = instruction[26:22];
+    	assign RS = instruction[21:17];
+    	assign RT = instruction[16:12];
+    	assign shamt = instruction[11:7];
+    	assign ALUopcode = instruction[6:2];
 	 
-	 assign Immediate = instruction[16:0];
+    	assign Immediate = instruction[16:0];
 	
-	 control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
+    	control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
-	 //overflow
-	 //Add 00000
-	 is_code is_Add(ALUopcode, 5'b00000, op_ADD_TMP);
-	 and and_isadd(op_ADD, op_ADD_TMP, op_Rtype);
-	 //Sub 00001
-	 is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
-	 and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
+    	//overflow
+    	//Add 00000
+    	is_code is_Add(ALUopcode, 5'b00000, op_ADD_TMP);
+    	and and_isadd(op_ADD, op_ADD_TMP, op_Rtype);
+    	//Sub 00001
+    	is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
+    	and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
 	 
-	 rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
+    	rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
 	
-	 // Regfile
-    	 assign ctrl_writeEnable = ;
-    	 assign ctrl_writeReg = RS;
-	 assign ctrl_readRegA = RD;
-	 assign ctrl_readRegB = RT;
-    	 assign data_writeReg = w_data;
+    	// Regfile
+    	assign ctrl_writeEnable = ;
+    	assign ctrl_writeReg = RS;
+    	assign ctrl_readRegA = RD;
+    	assign ctrl_readRegB = RT;
+    	assign data_writeReg = w_data;
+	assign reg_dmem = data_readRegB;
 	 
-	//get aluOut
+    	//get aluOut
 	 
-	 // Dmem
-	 assign address_dmem = aluOut[11:0];
-	 assign data = data_readRegB;
-	 assign wren = DMwe;
+    	// Dmem
+    	assign address_dmem = aluOut[11:0];
+    	assign data = reg_dmem;
+    	assign wren = DMwe;
 	 
-	 assign dmem_out = q_dmem;
+    	assign dmem_out = q_dmem;
 	
 endmodule
