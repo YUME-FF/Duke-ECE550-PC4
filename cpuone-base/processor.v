@@ -160,7 +160,7 @@ module processor(
 	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
 	 
     	//get aluOut
-	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, overflow);
+	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
 	
     	// Dmem
     	assign address_dmem = aluOut[11:0];
