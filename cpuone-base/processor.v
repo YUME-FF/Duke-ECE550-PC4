@@ -104,7 +104,7 @@ module processor(
 	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
 	 wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
-	wire [31:0] whichcode_overflow;
+	wire [31:0] rstatus;
 	 
 	 //Rtype
 	 wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
@@ -120,7 +120,6 @@ module processor(
 	 //imem
 	 assign address_imem = PC_OUTPUT[11:0];
 	 assign instruction = q_imem;
-	 	 
 	 
 	 //Instruction
 	 assign opcode = instruction[31:27];
@@ -142,12 +141,7 @@ module processor(
 	 is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
 	 and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
 	 
-	 whichcode_overflow = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
-	 
-	 //dmem
-	 
-
-	 
+	 rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
 	 
 
 endmodule
