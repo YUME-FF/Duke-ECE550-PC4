@@ -105,6 +105,7 @@ module processor(
     	wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
     	wire [31:0] rstatus;
+	wire [31:0] w_data;
 	 
     	//Rtype
     	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
@@ -147,7 +148,9 @@ module processor(
     	rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
 	
     	// Regfile
-    	assign ctrl_writeEnable = ;
+	assign w_data = aluOut;
+	
+    	assign ctrl_writeEnable = Rwe;
     	assign ctrl_writeReg = RS;
     	assign ctrl_readRegA = RD;
     	assign ctrl_readRegB = RT;
