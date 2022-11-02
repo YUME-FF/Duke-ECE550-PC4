@@ -112,6 +112,7 @@ module processor(
     	wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
 	
 	wire [31:0]reg_A, reg_B;
+	wire[31:0] Immediate_extension;
 	wire [31:0] aluOut;
 	wire alu_isEqual, alu_lessThan, overflow;
 	 
@@ -134,7 +135,7 @@ module processor(
     	assign ALUopcode = instruction[6:2];
 	 
     	assign Immediate = instruction[16:0];
-	
+	signExtension se(Immediate, Immediate_extension);
     	control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
     	//overflow
@@ -156,7 +157,7 @@ module processor(
     	assign ctrl_readRegB = RT;
     	assign data_writeReg = w_data;
 	assign reg_A = data_readRegA;
-	assign reg_B = data_readRegB;
+	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
 	 
     	//get aluOut
 	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, overflow);
