@@ -122,8 +122,22 @@ module processor(
 	 assign instruction = q_imem;
 	 	 
 	 
-	 //Instruction and regfile
+	 //Instruction
 	 assign opcode = instruction[31:27];
+	 assign RD = instruction[26:22];
+	 assign RS = instruction[21:17];
+	 assign RT = instruction[16:12];
+	 assign shamt = instruction[11:7];
+	 assign ALUopcode = instruction[6:2];
+	 
+	 assign Immediate = instruction[16:0];
+	
+	//regfile
+// 	regfile(
+// 	clock, ctrl_writeEnable, ctrl_reset, ctrl_writeReg,
+// 	ctrl_readRegA, ctrl_readRegB, data_writeReg, data_readRegA,
+// 	data_readRegB);
+	
 	 control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
 	 
 	 //overflow
@@ -136,30 +150,6 @@ module processor(
 	 
 	 whichcode_overflow = op_ADD?5'b00000:op_SUB?5'b00001:op_Addi?5'b00101;
 	 
-	 
-	 
-//	 //AND 00010
-//	 is_code is_AND(ALUopcode, 5'b00010, op_AND_TMP);
-//	 and and_isadd(op_AND, op_AND_TMP, op_Rtype);
-//	 //OR 00011
-//	 is_code is_OR(ALUopcode, 5'b00011, op_OR_TMP);
-//	 and and_isadd(op_OR, op_OR_TMP, op_Rtype);
-//	 //SLL 00100
-//	 is_code is_SLL(ALUopcode, 5'b00100, op_SLL_TMP);
-//	 and and_isadd(op_SLL, op_SLL_TMP, op_Rtype);
-//	 //SRA 00101
-//	 is_code is_SRA(ALUopcode, 5'b00101, op_SRA_TMP);
-//	 and and_isadd(op_SRA, op_SRA_TMP, op_Rtype);
-//	 
-	  
-	 assign RD = instruction[26:22];
-	 assign RS = instruction[21:17];
-	 assign RT = instruction[16:12];
-	 assign shamt = instruction[11:7];
-	 assign ALUopcode = instruction[6:2];
-	 
-	 
-	 assign Immediate = instruction[16:0];
 	 //dmem
 	 
 
