@@ -104,7 +104,7 @@ module processor(
 	 wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
 	 wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
-	wire [31:0] rstatus;
+	 wire [31:0] rstatus;
 	 
 	 //Rtype
 	 wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
@@ -142,6 +142,21 @@ module processor(
 	 and and_isadd(op_SUB, op_SUB_TMP, op_Rtype);
 	 
 	 rstatus = op_ADD?32'd1:op_SUB?32'd2:op_Addi?32'd3;
+	
+	 // Regfile
+    	 assign ctrl_writeEnable = ;
+    	 assign ctrl_writeReg = RS;
+	 assign ctrl_readRegA = RD;
+	 assign ctrl_readRegB = RT;
+    	 assign data_writeReg = w_data;
 	 
-
+	//get aluOut
+	 
+	 // Dmem
+	 assign address_dmem = aluOut[11:0];
+	 assign data = regfile_dataB;
+	 assign wren = DMwe;
+	 
+	 assign dmem_out = q_dmem;
+	
 endmodule
