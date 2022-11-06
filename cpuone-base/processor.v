@@ -111,10 +111,10 @@ module processor(
     	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
     	wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
 	
-		wire [31:0]reg_A, reg_B;
-		wire[31:0] Immediate_extension;
-		wire [31:0] aluOut;
-		wire alu_isEqual, alu_lessThan, overflow;
+	wire [31:0]reg_A, reg_B;
+	wire[31:0] Immediate_extension;
+	wire [31:0] aluOut;
+	wire alu_isEqual, alu_lessThan, overflow;
 	 
     	//PC
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
@@ -160,7 +160,7 @@ module processor(
 	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
 		
     	//get aluOut
-		alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
+	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
 
     	// Dmem
     	assign address_dmem = aluOut[11:0];
