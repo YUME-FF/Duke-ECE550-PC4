@@ -76,7 +76,7 @@ module processor(
 
     // Imem
     output [11:0] address_imem;
-    input [31:0] q_imem;s
+    input [31:0] q_imem;
 
     // Dmem
     output [11:0] address_dmem;
@@ -105,7 +105,7 @@ module processor(
     	wire op_Rtype, op_Addi, op_Sw, op_Lw;
 	 
     	wire [31:0] rstatus;
-		wire [31:0] w_data;
+	wire [31:0] w_data;
 	 
     	//Rtype
     	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
