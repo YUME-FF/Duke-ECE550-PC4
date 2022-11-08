@@ -111,46 +111,6 @@ module processor_tb();
 
 	// Task for regfile testing
 	task check_sw;
-		input [4:0] writeReg;
-		input [31:0] value;
-
-		begin
-			@(negedge clock); // wait for next negedge of clock
-			$display($time, " << Writing register %d with %h >>", writeReg, value);
-
-			ctrl_writeEnable = 1'b1;
-			ctrl_writeReg = writeReg;
-			data_writeReg = value;
-
-			@(negedge clock); // wait for next negedge, write should be done
-			ctrl_writeEnable = 1'b0;
-		end
 	endtask
 
-   // Task for reading
-	task checkRegister;
-		input [4:0] checkReg;
-		input [31:0] exp;
-		begin
-			@(negedge clock); // wait for next negedge of clock
-
-			ctrl_readRegA = checkReg; // test port A
-			ctrl_readRegB = checkReg; // test port B
-
-			@(negedge clock); // wait for next negedge, read should be done
-
-			if(data_readRegA !== exp) begin
-				 $display("**Error on port A: read %h but expected %h.", data_readRegA, exp);
-				 errors = errors + 1;
-			end
-			else if(data_readRegB !== exp) begin
-				$display("**Error on port B: read %h but expected %h.", data_readRegB, exp);
-				errors = errors + 1;
-			end
-			else begin
-				$display($time, "	port A read %h matches expected %h. ", data_readRegA, exp);
-				$display($time, "	port B read %h matches expected %h. ", data_readRegB, exp);
-			end
-	  end
-	endtask
 endmodule
