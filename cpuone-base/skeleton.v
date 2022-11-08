@@ -24,9 +24,9 @@ module skeleton(clock, reset, imem_clock, dmem_clock, processor_clock, regfile_c
 	 frequency_divider fd1(clock,reset,clock_divider_2);
 	 frequency_divider fd2(clock_divider_2,reset,clock_divider_4);
 	 assign imem_clock = clock;
-	 assign dmem_clock = ~clk_div2;
-	 assign regfile_clock = ~clk_div4;
-	 assign processor_clock = ~clk_div4;
+	 assign dmem_clock = ~clock_divider_2;
+	 assign regfile_clock = ~clock_divider_4;
+	 assign processor_clock = ~clock_divider_4;
 
 
     /** IMEM **/
