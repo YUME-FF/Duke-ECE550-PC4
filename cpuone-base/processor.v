@@ -97,7 +97,7 @@ module processor(
 	 
     	//wire: PC
     	wire[31:0] PC_INPUT, PC_OUTPUT;
-    	wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
+    	wire isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4;
 		
 		//wire: instruction format
 		wire[31:0] instruction;
