@@ -1,4 +1,4 @@
-module frequency_divider4(clk, rst, out_clk);
+module clock_div4(clk, rst, out_clk);
   output reg out_clk;
   input clk;
   input rst;
