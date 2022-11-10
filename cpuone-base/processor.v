@@ -1,3 +1,6 @@
+// BUG: [#addi] falsely interpret immediate
+// BUG: [#DMEM] failed to write in correct input data
+
 /**
  * READ THIS DESCRIPTION!
  *
@@ -125,11 +128,14 @@ module processor(
     	
 		//wire: sw
 		wire [31:0] dmem_out;
+	wire wren, ctrl_writeEnable;
 
 	 
     	//PC
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
-    	alu pcPlus4(PC_OUTPUT, 32'h00000004, 5'b00000,
+		// NOTE: PC should plus one when update
+		// TODO: change related naming (pcPlus4 -> pcPlus1)
+    	alu pcPlus4(PC_OUTPUT, 32'h00000001, 5'b00000,
 		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
 			
     	//imem

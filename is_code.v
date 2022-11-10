@@ -28,8 +28,8 @@ module is_code(
         end
 	endgenerate
 	
-	and and_0(outTMP[0], ~opTMP[0], ~opTMP[1]);
-	and and_1(outTMP[1], ~opTMP[2], ~opTMP[3]);
+	and and_0(outTMP[0], opTMP[0], opTMP[1]);
+	and and_1(outTMP[1], opTMP[2], opTMP[3]);
 	and and_2(outTMP[2], outTMP[0], outTMP[1]);
-	and and_3(OUTPUT, ~opTMP[4], outTMP[2]);
+	and and_3(OUTPUT, opTMP[4], outTMP[2]);
 endmodule
