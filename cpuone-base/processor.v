@@ -188,7 +188,7 @@ module processor(
 
     	// Dmem
     	assign address_dmem = aluOut[11:0];
-    	assign data = reg_B;
+    	assign data = data_readRegB;
     	assign wren = DMwe;
 	 
     	assign dmem_out = q_dmem;
