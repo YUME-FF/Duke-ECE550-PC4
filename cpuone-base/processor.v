@@ -147,7 +147,7 @@ module processor(
 		assign RS = instruction[21:17];
     	assign RT = instruction[16:12];
     	assign shamt = op_Rtype?instruction[11:7]:5'b00000;
-    	assign ALUopcode = instruction[6:2];
+    	assign ALUopcode = op_Rtype? instruction[6:2]: ALUop? 5'b00001:5'b00000;//instruction[6:2];
 		
 		//control signal assignment
     	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
