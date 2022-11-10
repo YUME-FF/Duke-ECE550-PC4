@@ -3,7 +3,7 @@ module clock_div4(clk, rst, out_clk);
   input clk;
   input rst;	
 reg [1:0] div_cnt1;
-	always@(posedge clk or negedge rst)
+	always@(posedge clk)
 begin
 	if(rst)
 		div_cnt1<=2'b00;
@@ -11,7 +11,7 @@ begin
 		div_cnt1<=div_cnt1+1'b1;
 end
  
-always@(posedge clk or negedge rst)
+always@(posedge clk)
 begin                                 
 	if(rst)                          
 		out_clk<=1'b0;
