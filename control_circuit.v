@@ -1,5 +1,3 @@
-// FIXME: wren, ctrl_writeEnable, ALUsrc always 0
-
 module control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rype, op_Addi, op_Sw, op_Lw);
 	//input
 	input [4:0] opcode;
