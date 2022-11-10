@@ -125,6 +125,7 @@ module processor(
     	
 		//wire: sw
 		wire [31:0] dmem_out;
+	wire wren, ctrl_writeEnable;
 
 	 
     	//PC
