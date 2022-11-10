@@ -91,36 +91,46 @@ module processor(
     input [31:0] data_readRegA, data_readRegB;
 
     /* YOUR CODE STARTS HERE */
- 
-    	//wire 
-    	wire[31:0] PC_INPUT;
-    	wire[31:0] PC_OUTPUT;
+	 
+    	//wire: PC
+    	wire[31:0] PC_INPUT, PC_OUTPUT;
     	wire isNotEqual_PC_Plus4, isLessThen_PC_Plus4, overflow_PC_Plus4;
-	
+		
+		//wire: instruction format
+		wire[31:0] instruction;
+		wire [4:0] opcode, ALUopcode, RD, RS, RT, shamt;
     	wire [16:0] Immediate;
-
-    	wire [4:0] opcode, ALUopcode, RD, RS, RT, shamt;
-    	wire[31:0] instruction;
-    	wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
+		wire [31:0] Immediate_extension;
+		
+		//wire: register
+		wire [31:0] reg_A, reg_B;
+		
+		//wire: control signal
+		wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd;
+		
+		//wire: operation being controlled
     	wire op_Rtype, op_Addi, op_Sw, op_Lw;
-	 
-    	wire [31:0] rstatus;
-	wire [31:0] w_data;
-	 
-    	//Rtype
+		
+		//wire: Rtype
+		wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
     	wire op_ADD_TMP, op_SUB_TMP, op_AND_TMP, op_OR_TMP, op_SLL_TMP, op_SRA_TMP;
-    	wire op_ADD, op_SUB, op_AND, op_OR, op_SLL, op_SRA;
-	
-	wire [31:0]reg_A, reg_B;
-	wire[31:0] Immediate_extension;
-	wire [31:0] aluOut;
-	wire alu_isEqual, alu_lessThan, overflow;
+    	
+		//wire: alu
+		wire [31:0] aluOut;
+		wire alu_isEqual, alu_lessThan, overflow;
+		
+		//wire: overflow->rstatus(the value in $r30)
+		wire if_ovf, if_ovf_tmp;
+		wire [31:0] rstatus;
+    	
+		//wire: sw
+		wire [31:0] dmem_out;
+
 	 
     	//PC
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
     	alu pcPlus4(PC_OUTPUT, 32'h00000004, 5'b00000,
 		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
-			
 			
     	//imem
     	assign address_imem = PC_OUTPUT[11:0];
@@ -128,39 +138,47 @@ module processor(
 	 
     	//Instruction
     	assign opcode = instruction[31:27];
-    	assign RD = instruction[26:22];
-    	assign RS = instruction[21:17];
+		assign RS = instruction[21:17];
     	assign RT = instruction[16:12];
-    	assign shamt = instruction[11:7];
+    	assign shamt = op_Rtype?instruction[11:7]:5'b00000;
     	assign ALUopcode = instruction[6:2];
-	 
-	assign Immediate = instruction[17:0];
-	signExtension se(Immediate, Immediate_extension);
+		
+		//control signal assignment
     	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
-	 
-    	//overflow
+    	
+		//overflow -> rstatus
+		assign rstatus = op_ADD?32'd1:(op_SUB?32'd2:op_Addi?32'd3:32'd0);
+		
     	//Add 00000
     	is_code is_Add(ALUopcode, 5'b00000, op_ADD_TMP);
     	and and_isadd(op_ADD, op_ADD_TMP, op_Rtype);
+		
     	//Sub 00001
     	is_code is_Sub(ALUopcode, 5'b00001, op_SUB_TMP);
     	and and_is_Sub(op_SUB, op_SUB_TMP, op_Rtype);
-	 
-    	assign rstatus = op_ADD?32'd1:(op_SUB?32'd2:op_Addi?32'd3:32'd0);
+		
+		//is_Add || is_Sub || is_Addi -> It is possible for them overflow
+		and if_ovf0(if_ovf_tmp, op_ADD, op_SUB);
+		and if_ovf1(if_ovf, if_ovf_tmp, op_Addi);
+		
+		//if overflow -> $r[5'd30] = data_writeReg (see details in regfile)
+		assign RD = if_ovf?(overflow?5'd30:instruction[26:22]):instruction[26:22];
+		
+		//extend immediate to 32 bit 
+		assign Immediate = instruction[16:0];
+		signExtension se(Immediate, Immediate_extension);
 	
     	// Regfile
-	assign w_data = aluOut;
-	
-    	assign ctrl_writeEnable = Rwe;
-    	assign ctrl_writeReg = Rdst? RT: RS; 
-    	assign ctrl_readRegA = RD;
-    	assign ctrl_readRegB = RT; 
-    	assign data_writeReg = Rwd? dmem_out:w_data;
-	assign reg_A = data_readRegA;
-	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
+    	assign ctrl_writeEnable = Rwe; //add addi lw
+    	assign ctrl_writeReg = RD;
+    	assign ctrl_readRegA = RS;
+    	assign ctrl_readRegB = Rdst?RT:RD; //if Rtype, then instruction[16:12], otherwise instruction[26:22]
+    	assign data_writeReg = op_Lw? dmem_out:if_ovf?(overflow?rstatus:aluOut):aluOut;
+		assign reg_A = data_readRegA;
+		assign reg_B = ALUinB?Immediate_extension: data_readRegB;
 		
     	//get aluOut
-	alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
+		alu alu_main(reg_A, reg_B, ALUopcode, shamt, aluOut, alu_isEqual, alu_lessThan, overflow);
 
     	// Dmem
     	assign address_dmem = aluOut[11:0];

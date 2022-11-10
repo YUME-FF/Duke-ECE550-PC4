@@ -4,7 +4,6 @@ module control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_R
 	
 	//Internal wire
 	wire [4:0] opcode;
-	wire Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rype, op_Addi, op_Sw, op_Lw;
 	wire [2:0] op_Rype_Tmp;
 	wire [2:0] op_Addi_Tmp;
 	wire [2:0] op_Sw_Tmp;

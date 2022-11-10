@@ -1,4 +1,4 @@
-module frequency_divider_by2(clk, rst, out_clk);
+module frequency_divider(clk, rst, out_clk);
   output reg out_clk;
   input clk;
   input rst;
