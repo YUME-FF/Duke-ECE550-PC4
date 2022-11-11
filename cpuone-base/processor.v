@@ -153,7 +153,7 @@ module processor(
     	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
     	
 		//overflow -> rstatus
-		assign rstatus = op_ADD?32'd1:(op_SUB?32'd2:op_Addi?32'd3:32'd0);
+		assign rstatus = op_ADD ? 32'd1 : (op_SUB ? 32'd3 : op_Addi ? 32'd2 : 32'd0);
 		
     	//Add 00000
     	is_code is_Add(ALUopcode, 5'b00000, op_ADD_TMP);
