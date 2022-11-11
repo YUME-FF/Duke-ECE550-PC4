@@ -9,6 +9,15 @@
 | Junyi Zhao  | jz423 |
 
 
+## Clock
+clock = what we feed to the skeleton
+| Module  | Clock length |
+| ------------- | ------------- |
+| imem  | clock  |
+| dmem  | clock/2  |
+| processor  | clock/4  |
+| regfile  | clock/4  |
+
 
 ## Functionality
 
