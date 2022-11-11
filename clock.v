@@ -4,7 +4,7 @@ module frequency_divider(clk, rst, out_clk);
   input rst;
   always @(posedge clk)
     begin
-      if (rst) // NOTE: reset when rst = 1
+      if (rst)
         out_clk <= 1'b0;
       else
         out_clk <= ~out_clk;
