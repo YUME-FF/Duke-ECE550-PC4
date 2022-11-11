@@ -178,7 +178,7 @@ module processor(
     	assign ctrl_writeEnable = Rwe; //add addi lw
     	assign ctrl_writeReg = RD;
     	assign ctrl_readRegA = RS;
-    	assign ctrl_readRegB = Rdst?RT:RD; //if Rtype, then instruction[16:12], otherwise instruction[26:22]
+    	assign ctrl_readRegB = Rdst?RD:RT;
 	assign data_writeReg = op_Lw? dmem_out:(if_ovf?(overflow?rstatus:aluOut):aluOut);
 		assign reg_A = data_readRegA;
 		assign reg_B = ALUinB?Immediate_extension: data_readRegB;
