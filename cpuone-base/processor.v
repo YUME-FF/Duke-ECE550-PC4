@@ -164,8 +164,8 @@ module processor(
     	and and_is_Sub(op_SUB, op_SUB_TMP, op_Rtype);
 		
 		//is_Add || is_Sub || is_Addi -> It is possible for them overflow
-		and if_ovf0(if_ovf_tmp, op_ADD, op_SUB);
-		and if_ovf1(if_ovf, if_ovf_tmp, op_Addi);
+		or if_ovf0(if_ovf_tmp, op_ADD, op_SUB);
+		or if_ovf1(if_ovf, if_ovf_tmp, op_Addi);
 		
 		//if overflow -> $r[5'd30] = data_writeReg (see details in regfile)
 		assign RD = if_ovf?(overflow?5'd30:instruction[26:22]):instruction[26:22];
